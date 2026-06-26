@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The three agents, in the order that makes them compound</title>
+<meta name="description" content="A follow-up to Eyal Manor. Three agents for Sephora, in the order that makes them compound." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #F6F7F8;
+    --surface: #FFFFFF;
+    --ink: #1B1D21;
+    --ink-2: #565C63;
+    --ink-3: #8C9199;
+    --line: rgba(20,22,26,.10);
+    --line-2: rgba(20,22,26,.18);
+    --teal: #0f766e;
+    --teal-soft: #f0fdfa;
+    --teal-line: rgba(15,118,110,.28);
+    --teal-bar: #14b8a6;
+    --amber: #b45309;
+    --amber-bg: #fffbeb;
+    --amber-line: rgba(180,83,9,.30);
+    --amber-solid: rgba(180,83,9,.18);
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --serif: 'IBM Plex Serif', Georgia, serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 72px 28px 100px; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 20px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.16;
+    letter-spacing: -.01em;
+    margin: 0 0 20px;
+    max-width: 22ch;
+  }
+  .lede {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.58;
+    color: var(--ink-2);
+    margin: 0 0 64px;
+    max-width: 56ch;
+  }
+  h2 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 28px;
+  }
+  p { margin: 0 0 14px; }
+  p:last-child { margin-bottom: 0; }
+
+  .section { margin: 0 0 72px; }
+
+  .rule {
+    border: none;
+    border-top: 0.5px solid var(--line-2);
+    margin: 0 0 64px;
+  }
+
+  /* Agent cards */
+  .agent-card {
+    background: var(--surface);
+    border: 0.5px solid var(--line-2);
+    border-radius: 14px;
+    padding: 28px;
+    margin: 0 0 16px;
+  }
+  .agent-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 0 0 12px;
+  }
+  .agent-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+  .agent-name {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1.2;
+    margin: 0;
+  }
+  .agent-desc {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0 0 20px;
+  }
+
+  /* CEO view block */
+  .ceo-block {
+    background: var(--paper);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 0 0 16px;
+  }
+  .ceo-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 8px;
+  }
+  .ceo-text {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 0 10px;
+  }
+  .metrics-line {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: .02em;
+    margin: 0;
+  }
+  .metrics-line span { color: var(--teal); }
+
+  /* Leaves behind */
+  .leaves-line {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--teal);
+    border-left: 2px solid var(--teal-line);
+    padding: 2px 0 2px 14px;
+    margin: 0 0 20px;
+  }
+  .leaves-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 6px;
+    display: block;
+    font-style: normal;
+  }
+
+  /* Foundation bar */
+  .foundation-wrap {
+    border-top: 0.5px solid var(--line);
+    padding-top: 16px;
+  }
+  .foundation-label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .foundation-label .pct { color: var(--teal); font-weight: 500; }
+  .bar-track {
+    height: 6px;
+    background: var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: var(--teal-bar);
+    border-radius: 999px;
+    width: 0%;
+    transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Amber cards */
+  .card-amber-solid {
+    background: var(--amber-bg);
+    border: 1px solid var(--amber-solid);
+    border-radius: 14px;
+    padding: 28px;
+  }
+  .card-amber-solid .card-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 18px;
+    margin: 0 0 12px;
+    color: var(--amber);
+  }
+  .card-amber-solid p { font-size: 14.5px; line-height: 1.65; color: var(--ink); }
+
+  .card-amber-dashed {
+    background: var(--amber-bg);
+    border: 1px dashed var(--amber-line);
+    border-radius: 14px;
+    padding: 28px;
+    opacity: 0.9;
+  }
+  .card-amber-dashed .card-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 18px;
+    margin: 0 0 12px;
+    color: var(--amber);
+  }
+  .card-amber-dashed p { font-size: 14.5px; line-height: 1.65; color: var(--ink); }
+  .in-progress-note {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 0.5px dashed var(--amber-line);
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--amber);
+    font-style: italic;
+  }
+
+  /* DealFlow */
+  .dealflow-lead {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    margin: 0 0 24px;
+  }
+  .phase-block {
+    display: flex;
+    gap: 16px;
+    margin: 0 0 14px;
+    align-items: flex-start;
+  }
+  .phase-tag {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    background: var(--teal-soft);
+    border: 0.5px solid var(--teal-line);
+    border-radius: 999px;
+    padding: 4px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .phase-text { font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+  .dealflow-close {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    border-left: 2px solid var(--teal-line);
+    padding: 2px 0 2px 16px;
+    margin: 22px 0 0;
+  }
+
+  /* Curated engine */
+  .engine-wrap {
+    background: var(--surface);
+    border: 0.5px solid var(--line-2);
+    border-radius: 14px;
+    padding: 28px;
+  }
+  .engine-subline {
+    font-size: 14px;
+    color: var(--ink-3);
+    margin: 0 0 6px;
+    line-height: 1.5;
+  }
+  .engine-framing {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-2);
+    margin: 0 0 24px;
+    line-height: 1.5;
+  }
+  .candidate-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 0 0 24px;
+  }
+  .candidate-btn {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: .02em;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 0.5px solid var(--line-2);
+    background: transparent;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .candidate-btn:hover { border-color: var(--ink-3); color: var(--ink); }
+  .candidate-btn.active { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+
+  /* Result cards */
+  .result-card {
+    background: var(--paper);
+    border: 0.5px solid var(--line-2);
+    border-radius: 12px;
+    padding: 22px;
+    display: none;
+  }
+  .result-card.visible { display: block; }
+
+  .result-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 18px;
+    flex-wrap: wrap;
+  }
+  .result-name {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 17px;
+    margin: 0;
+  }
+  .result-name.decline { text-decoration: line-through; color: var(--ink-3); }
+
+  .placement-chip {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .06em;
+    border-radius: 999px;
+    padding: 3px 11px;
+    border: 0.5px solid;
+    flex-shrink: 0;
+  }
+  .chip-build { color: var(--teal); background: var(--teal-soft); border-color: var(--teal-line); }
+  .chip-neutral { color: var(--ink-2); background: var(--paper); border-color: var(--line-2); }
+  .chip-no { color: var(--ink-3); background: var(--paper); border-color: var(--line); }
+
+  .result-section { margin: 0 0 14px; }
+  .result-section:last-child { margin-bottom: 0; }
+  .result-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 5px;
+  }
+  .result-body {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+  .result-body strong { color: var(--ink); font-weight: 500; }
+
+  @media (max-width: 520px) {
+    .wrap { padding: 48px 20px 80px; }
+    h1 { font-size: 26px; }
+    .candidate-btns { flex-direction: column; }
+    .candidate-btn { text-align: left; border-radius: 10px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1. Header -->
+  <div class="section">
+    <p class="eyebrow">Follow-up to our conversation</p>
+    <h1>The three agents you asked for, in the order that makes them compound.</h1>
+    <p class="lede">Any model can spin up an agent that works. That stopped being the question. The question is which ones compound, and in what order. Each agent's real payoff isn't the task it does, it's the foundation it leaves behind that makes the next one cheaper and safer to build. So the order is the strategy.</p>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- 2. Build them in this order -->
+  <div class="section">
+    <h2>Build them in this order</h2>
+
+    <!-- Agent 1: Onboarding -->
+    <div class="agent-card">
+      <div class="agent-header">
+        <span class="agent-num">01</span>
+        <h3 class="agent-name">Onboarding agent</h3>
+      </div>
+      <p class="agent-desc">Walks every new hire through the business, their team, and cross-functional context from day one. Cuts ramp time and the early churn that comes from people feeling lost.</p>
+
+      <div class="ceo-block">
+        <p class="ceo-label">As CEO I'd greenlight this first</p>
+        <p class="ceo-text">It costs almost nothing to try and it pays back every hiring cycle. Faster ramp means productive sooner. Lower first-90-day attrition means I stop paying to re-hire the same role. It's the lowest-risk way to prove agents work in a regulated environment before I point them at anything sensitive.</p>
+        <p class="metrics-line">Metrics: <span>ramp time, 90-day retention, rehire cost avoided</span></p>
+      </div>
+
+      <div class="leaves-line">
+        <span class="leaves-label">Leaves behind</span>
+        The first map of the company. Who owns what, which system holds which truth. Every later agent needs that map.
+      </div>
+
+      <div class="foundation-wrap">
+        <div class="foundation-label">
+          <span>Foundation</span>
+          <span class="pct">33%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" data-target="33"></div></div>
+      </div>
+    </div>
+
+    <!-- Agent 2: Credit card and loyalty -->
+    <div class="agent-card">
+      <div class="agent-header">
+        <span class="agent-num">02</span>
+        <h3 class="agent-name">Credit card and loyalty conversion agent</h3>
+      </div>
+      <p class="agent-desc">Works behind the scenes on the card program: targets prescreen offers, drafts offer language inside the bounds legal already approved, and surfaces where the two reward currencies don't reconcile. Makes the card simpler to pitch instead of adding another tool.</p>
+
+      <div class="ceo-block">
+        <p class="ceo-label">As CEO I'd greenlight this next</p>
+        <p class="ceo-text">This moves margin on both sides, and margin is the thing I can't move by pricing in this category. On revenue, the card is one of my highest-margin levers, and right now advisors skip it because the value prop is too confusing to explain at the register. Clean that up and prescreen smarter and acceptance goes up. On cost, smarter real-time targeting cuts mailer spend and manual compliance cycles. I measurably moved acceptance and cut mailer spend on this exact problem, and I'm happy to walk through the specifics in person.</p>
+        <p class="metrics-line">Metrics: <span>card acceptance and activation, mailer cost, reconciliation accuracy</span></p>
+      </div>
+
+      <div class="leaves-line">
+        <span class="leaves-label">Leaves behind</span>
+        A clean reconciliation and identity layer across the credit and loyalty currencies, built on the system map from step one. It also proves the governance pattern in a regulated, compliance-heavy setting, which is what earns the right to point an agent at customers next.
+      </div>
+
+      <div class="foundation-wrap">
+        <div class="foundation-label">
+          <span>Foundation</span>
+          <span class="pct">66%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" data-target="66"></div></div>
+      </div>
+    </div>
+
+    <!-- Agent 3: Beauty journey -->
+    <div class="agent-card">
+      <div class="agent-header">
+        <span class="agent-num">03</span>
+        <h3 class="agent-name">Beauty-journey agent</h3>
+      </div>
+      <p class="agent-desc">Helps each member move from discovery to purchase with context on their history, loyalty status, and credit offers. Respects each member's permissions and embeds in the existing workflow rather than sitting on top of it.</p>
+
+      <div class="ceo-block">
+        <p class="ceo-label">As CEO I'd greenlight this last</p>
+        <p class="ceo-text">I can't change what a category margin is, but I can change how much each member I already have buys, and how often. That's conversion, basket size, repeat rate, and how well I'm using Beauty Insider and the co-brand credit. It's top-line growth from members I already have, not paid acquisition. I put it last because it touches customers, and I only point an agent at customers after the first two have earned the identity and trust controls to do it safely.</p>
+        <p class="metrics-line">Metrics: <span>conversion, average order value, repeat rate, loyalty and credit utilization</span></p>
+      </div>
+
+      <div class="leaves-line">
+        <span class="leaves-label">Leaves behind</span>
+        The trust and identity layer, proven first on internal onboarding and then in the regulated card program, so customer-facing is the earned last step rather than the risky first one.
+      </div>
+
+      <div class="foundation-wrap">
+        <div class="foundation-label">
+          <span>Foundation</span>
+          <span class="pct">92%</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" data-target="92"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- 3. The fourth one -->
+  <div class="section">
+    <h2>The fourth one you don't have to invent</h2>
+    <div class="card-amber-solid">
+      <p class="card-title">Cross-functional intelligence agent</p>
+      <p>Once those three connect, a fourth becomes possible that none of them could do alone: ask the business a question across all of it. Leadership interrogates one connected picture instead of three disconnected dashboards. As CEO this is decision speed and forecast accuracy off data I already own, with no new system to buy.</p>
+      <p>This is the one I reached for in our call. It wasn't wrong, it was early. It can't come first. The foundation has to exist for it to work.</p>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- 4. DealFlow -->
+  <div class="section">
+    <h2>You already work this way</h2>
+    <p class="dealflow-lead">This isn't my method. It's yours. DealFlow did exactly this:</p>
+
+    <div class="phase-block">
+      <span class="phase-tag">Phase 1</span>
+      <p class="phase-text">Started with the most painful bottleneck: getting sales notes into Salesforce. Ran it with a small group, proved it, expanded to hundreds.</p>
+    </div>
+    <div class="phase-block">
+      <span class="phase-tag">Phase 2</span>
+      <p class="phase-text">Built on that foundation by adding call transcripts to surface buying signals and deal risk. Cheaper because Phase 1 already laid the ground.</p>
+    </div>
+
+    <p class="dealflow-close">Painful thing first, prove it, then build on the layer. That's how you get past pilot purgatory into production, and it's the same pattern as the three above.</p>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- 5. Frontier -->
+  <div class="section">
+    <h2>Where I'd take it next</h2>
+    <div class="card-amber-dashed">
+      <p class="card-title">The solve none of your three teams owns yet</p>
+      <p>Same move as the fourth agent above, lifted from Sephora to your business. Support, sales, and finance each leave their own foundation. The same pattern says the real prize is the agent that works across all three once they connect, the one no single team can build alone. Direct first to learn the layer, channel later once it stands up without you in the room.</p>
+      <div class="in-progress-note">Still in progress. You understand a layer by building inside it, not by mapping it from outside. I sketched this from your public material. To actually understand it I'd want inside one real account, because the layer's real shape only shows once it's integrated. That's the part I'm working on now.</div>
+    </div>
+  </div>
+
+  <hr class="rule" />
+
+  <!-- 6. Curated engine -->
+  <div class="section">
+    <h2>The same test on three agents I didn't pick to fit it</h2>
+    <div class="engine-wrap">
+      <p class="engine-subline">It builds what compounds and rejects what doesn't. The one it rejects is the point.</p>
+      <p class="engine-framing">The model can build any of these. What it can't do is decide which ones earn the next. That judgment is the job.</p>
+
+      <div class="candidate-btns">
+        <button class="candidate-btn active" data-result="result-1" onclick="showResult(this, 'result-1')">Dispute and chargeback triage agent</button>
+        <button class="candidate-btn" data-result="result-2" onclick="showResult(this, 'result-2')">Proactive churn-save agent</button>
+        <button class="candidate-btn" data-result="result-3" onclick="showResult(this, 'result-3')">Standalone FAQ chatbot</button>
+      </div>
+
+      <!-- Result 1: Dispute triage -->
+      <div class="result-card visible" id="result-1">
+        <div class="result-header">
+          <h4 class="result-name">Dispute and chargeback triage agent</h4>
+          <span class="placement-chip chip-build">build it, after the foundation</span>
+        </div>
+        <div class="result-section">
+          <p class="result-label">CEO view</p>
+          <p class="result-body"><strong>Bottom line -- cost per dispute, resolution time.</strong> Routes each dispute to the right team on first contact instead of bouncing it, which cuts handling cost and speeds resolution.</p>
+        </div>
+        <div class="result-section">
+          <p class="result-label">Leaves behind</p>
+          <p class="result-body">A categorized reason-code layer that a later fraud or collections agent can reuse.</p>
+        </div>
+        <div class="result-section">
+          <p class="result-label">Placement rationale</p>
+          <p class="result-body">Sits on the system map an earlier agent lays down, then deposits structure the next agent inherits.</p>
+        </div>
+      </div>
+
+      <!-- Result 2: Churn-save -->
+      <div class="result-card" id="result-2">
+        <div class="result-header">
+          <h4 class="result-name">Proactive churn-save agent</h4>
+          <span class="placement-chip chip-neutral">build it, but last</span>
+        </div>
+        <div class="result-section">
+          <p class="result-label">CEO view</p>
+          <p class="result-body"><strong>Top line -- retention, repeat rate.</strong> Reaches at-risk customers before they lapse, protecting recurring revenue from members you already have.</p>
+        </div>
+        <div class="result-section">
+          <p class="result-label">Leaves behind</p>
+          <p class="result-body">Consumes the identity and trust layer rather than building new foundation.</p>
+        </div>
+        <div class="result-section">
+          <p class="result-label">Placement rationale</p>
+          <p class="result-body">It acts toward customers, so it is only safe once identity, permissions, and trust are already proven. Powerful, but not first.</p>
+        </div>
+      </div>
+
+      <!-- Result 3: FAQ chatbot (decline) -->
+      <div class="result-card" id="result-3">
+        <div class="result-header">
+          <h4 class="result-name decline">Standalone FAQ chatbot</h4>
+          <span class="placement-chip chip-no">don't build it</span>
+        </div>
+        <div class="result-section">
+          <p class="result-label">Rationale</p>
+          <p class="result-body">It isn't really an agent. No loop that learns, no stopping condition tied to an outcome, nothing it leaves behind. Deflects a few questions but moves no real number you would run the company against. Buys fine, builds nothing, does not lower the cost of the next solve. The engine says no, and that no is what proves it discriminates.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Foundation bar animation on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const fill = entry.target;
+        setTimeout(() => { fill.style.width = fill.dataset.target + '%'; }, 80);
+        observer.unobserve(fill);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.bar-fill').forEach(bar => observer.observe(bar));
+
+  // Curated engine
+  function showResult(btn, resultId) {
+    document.querySelectorAll('.candidate-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.querySelectorAll('.result-card').forEach(c => c.classList.remove('visible'));
+    document.getElementById(resultId).classList.add('visible');
+  }
+</script>
+</body>
+</html>
