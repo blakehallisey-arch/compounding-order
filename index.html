@@ -65,15 +65,22 @@
     font-size: 17px;
     line-height: 1.58;
     color: var(--ink-2);
-    margin: 0 0 64px;
+    margin: 0 0 20px;
     max-width: 56ch;
+  }
+  .definition-line {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    border-left: 2px solid var(--line-2);
+    padding: 0 0 0 14px;
+    margin: 0 0 64px;
+    line-height: 1.5;
   }
   h2 {
     font-family: var(--serif);
     font-weight: 500;
     font-size: 15px;
-    letter-spacing: 0;
-    text-transform: none;
     color: var(--ink);
     margin: 0 0 28px;
   }
@@ -119,9 +126,31 @@
   }
   .agent-desc {
     font-size: 14.5px;
-    line-height: 1.6;
+    line-height: 1.65;
     color: var(--ink-2);
-    margin: 0 0 20px;
+    margin: 0 0 14px;
+  }
+
+  /* Loop line */
+  .loop-line {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    background: var(--paper);
+    border: 0.5px solid var(--line-2);
+    border-radius: 6px;
+    padding: 7px 12px;
+    margin: 0 0 10px;
+    letter-spacing: .01em;
+  }
+
+  /* Gate marker */
+  .gate-marker {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--amber);
+    margin: 0 0 18px;
+    letter-spacing: .01em;
   }
 
   /* CEO view block */
@@ -221,6 +250,12 @@
     color: var(--amber);
   }
   .card-amber-solid p { font-size: 14.5px; line-height: 1.65; color: var(--ink); }
+  .card-amber-solid .loop-line {
+    background: var(--amber-bg);
+    border-color: var(--amber-line);
+    color: var(--amber);
+    margin-top: 14px;
+  }
 
   .card-amber-dashed {
     background: var(--amber-bg);
@@ -377,12 +412,7 @@
     color: var(--ink-3);
     margin: 0 0 5px;
   }
-  .result-body {
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: var(--ink-2);
-    margin: 0;
-  }
+  .result-body { font-size: 13.5px; line-height: 1.6; color: var(--ink-2); margin: 0; }
   .result-body strong { color: var(--ink); font-weight: 500; }
 
   @media (max-width: 520px) {
@@ -400,7 +430,8 @@
   <div class="section">
     <p class="eyebrow">Follow-up to our conversation</p>
     <h1>The three agents you asked for, in the order that makes them compound.</h1>
-    <p class="lede">Any model can spin up an agent that works. That's not the question anymore. The question is sequence. Each agent's payoff isn't the task it does -- it's what it leaves behind that makes the next one cheaper to build. The order is the strategy.</p>
+    <p class="lede">Any model can spin up an agent that works. That stopped being the question. The question is which ones compound, and in what order. Each agent's real payoff isn't the task it does, it's the foundation it leaves behind that makes the next one cheaper and safer to build. So the order is the strategy.</p>
+    <p class="definition-line">An agent is a loop with a stop condition, not a thing you query. Each of these triggers, decides, acts, and stops.</p>
   </div>
 
   <hr class="rule" />
@@ -415,7 +446,8 @@
         <span class="agent-num">01</span>
         <h3 class="agent-name">Onboarding agent</h3>
       </div>
-      <p class="agent-desc">Walks every new hire through the business, their team, and cross-functional context from day one.</p>
+      <p class="agent-desc">Triggers when someone is hired, builds their role-specific ramp plan, stages access for approval, schedules the right intros, tracks milestones, and escalates when something stalls. It runs the ramp, it doesn't answer questions about it.</p>
+      <div class="loop-line">new hire &rarr; plan, stage access, track, escalate &rarr; stop when ramped</div>
 
       <div class="ceo-block">
         <p class="ceo-label">As CEO I'd greenlight this first</p>
@@ -443,7 +475,9 @@
         <span class="agent-num">02</span>
         <h3 class="agent-name">Credit card and loyalty conversion agent</h3>
       </div>
-      <p class="agent-desc">Tightens prescreen targeting, cleans up the offer so advisors can explain it at the register, and reconciles where the two reward currencies don't agree.</p>
+      <p class="agent-desc">Triggers on customer and batch events and decides which prescreen offers to fire, suppress, or route, reasoning across the issuer, loyalty, and CRM data, then adapts targeting on the acceptance signal. Offer cleanup and currency reconciliation ride along.</p>
+      <div class="loop-line">customer event &rarr; decide fire / suppress / route &rarr; adapt on acceptance</div>
+      <p class="gate-marker">Autonomous loop. Human approves every customer-facing send, within legal's bounds.</p>
 
       <div class="ceo-block">
         <p class="ceo-label">As CEO I'd greenlight this next</p>
@@ -453,7 +487,7 @@
 
       <div class="leaves-line">
         <span class="leaves-label">Leaves behind</span>
-        Proof that the governance pattern holds in a regulated, compliance-heavy setting. That's what earns the right to point an agent at customers next.
+        A reconciled credit-and-loyalty identity layer, built on the system map from step one, plus proof the governance pattern holds in a regulated, compliance-heavy setting. Both are what earn the right to point an agent at customers next.
       </div>
 
       <div class="foundation-wrap">
@@ -471,7 +505,9 @@
         <span class="agent-num">03</span>
         <h3 class="agent-name">Beauty-journey agent</h3>
       </div>
-      <p class="agent-desc">Helps each member move from discovery to purchase with context on their history, loyalty status, and credit offers.</p>
+      <p class="agent-desc">Decides the next best action for each member across touchpoints, takes it, and adapts on the response. Not a recommendation waiting to be shown. An agent that moves the member forward, respects their permissions, and learns from what happens.</p>
+      <div class="loop-line">member signal &rarr; decide and act &rarr; adapt on response</div>
+      <p class="gate-marker">Autonomous loop. Human holds the gate on anything that reaches a member.</p>
 
       <div class="ceo-block">
         <p class="ceo-label">As CEO I'd greenlight this last</p>
@@ -501,8 +537,9 @@
     <h2>The fourth one you don't have to invent</h2>
     <div class="card-amber-solid">
       <p class="card-title">Cross-functional intelligence agent</p>
-      <p>Once those three connect, a fourth becomes possible: one query across all of it instead of three separate reports. Decision speed and forecast accuracy off data you already own. No new system.</p>
-      <p>This is the one I reached for in our call. It wasn't wrong -- it was early. It can't come first. The foundation has to exist for it to work.</p>
+      <p>It doesn't wait for a question. Once those three connect, it watches across all of it and surfaces the thing before anyone knew to ask -- when a customer-behavior shift, a loyalty-and-credit signal, and an operations signal converge into something no single team can see, then it routes or acts.</p>
+      <p>This is the one I reached for in our call. It wasn't wrong, it was early. The foundation has to exist for it to watch.</p>
+      <div class="loop-line">cross-domain pattern &rarr; detect &rarr; route or act (no human query)</div>
     </div>
   </div>
 
@@ -522,7 +559,7 @@
       <p class="phase-text">Built on that foundation by adding call transcripts to surface buying signals and deal risk. Cheaper because Phase 1 already laid the ground.</p>
     </div>
 
-    <p class="dealflow-close">Most companies invert it. They start with the ambitious agent and wonder why it doesn't survive contact with production. Painful thing first, prove it, build on the layer.</p>
+    <p class="dealflow-close">Most companies invert it and start with the ambitious agent, then wonder why it dies in production. Painful thing first, prove it, build on the layer.</p>
   </div>
 
   <hr class="rule" />
@@ -532,8 +569,8 @@
     <h2>Where I'd take it next</h2>
     <div class="card-amber-dashed">
       <p class="card-title">The agent none of your teams can build alone</p>
-      <p>Support, sales, and finance each leave their own foundation. Once they connect, there's an agent that works across all three. No single team owns it. No single team can build it.</p>
-      <div class="in-progress-note">Still in progress. You understand a layer by building inside it, not mapping it from outside. I sketched this from your public material. The real shape only shows once it's integrated. To finish it I'd need inside one real account -- that's what I'm working toward.</div>
+      <p>Same move as the fourth one above, lifted from Sephora to your business. Support, sales, and finance each leave their own foundation. Once they connect, there's an agent that watches across all three and acts on what no single team can see. No one team owns it. No one team can build it.</p>
+      <div class="in-progress-note">Still in progress. You understand a layer by building inside it, not by mapping it from outside. I sketched this from your public material. To actually understand it I'd want inside one real account, because the layer's real shape only shows once it's integrated. That's the part I'm working on now.</div>
     </div>
   </div>
 
@@ -547,12 +584,12 @@
       <p class="engine-framing">The model can build any of these. What it can't do is decide which ones earn the next. That judgment is the job.</p>
 
       <div class="candidate-btns">
-        <button class="candidate-btn active" data-result="result-1" onclick="showResult(this, 'result-1')">Dispute and chargeback triage agent</button>
-        <button class="candidate-btn" data-result="result-2" onclick="showResult(this, 'result-2')">Proactive churn-save agent</button>
-        <button class="candidate-btn" data-result="result-3" onclick="showResult(this, 'result-3')">Standalone FAQ chatbot</button>
+        <button class="candidate-btn active" onclick="showResult(this, 'result-1')">Dispute and chargeback triage agent</button>
+        <button class="candidate-btn" onclick="showResult(this, 'result-2')">Proactive churn-save agent</button>
+        <button class="candidate-btn" onclick="showResult(this, 'result-3')">Standalone FAQ chatbot</button>
       </div>
 
-      <!-- Result 1: Dispute triage -->
+      <!-- Result 1 -->
       <div class="result-card visible" id="result-1">
         <div class="result-header">
           <h4 class="result-name">Dispute and chargeback triage agent</h4>
@@ -572,7 +609,7 @@
         </div>
       </div>
 
-      <!-- Result 2: Churn-save -->
+      <!-- Result 2 -->
       <div class="result-card" id="result-2">
         <div class="result-header">
           <h4 class="result-name">Proactive churn-save agent</h4>
@@ -592,7 +629,7 @@
         </div>
       </div>
 
-      <!-- Result 3: FAQ chatbot (decline) -->
+      <!-- Result 3: decline -->
       <div class="result-card" id="result-3">
         <div class="result-header">
           <h4 class="result-name decline">Standalone FAQ chatbot</h4>
@@ -627,7 +664,6 @@
   function showResult(btn, resultId) {
     document.querySelectorAll('.candidate-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-
     document.querySelectorAll('.result-card').forEach(c => c.classList.remove('visible'));
     document.getElementById(resultId).classList.add('visible');
   }

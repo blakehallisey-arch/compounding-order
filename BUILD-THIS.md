@@ -47,33 +47,41 @@ Title: The three agents you asked for, in the order that makes them compound.
 
 Subline: Any model can spin up an agent that works. That stopped being the question. The question is which ones compound, and in what order. Each agent's real payoff isn't the task it does, it's the foundation it leaves behind that makes the next one cheaper and safer to build. So the order is the strategy.
 
+Definition line (small, tertiary, directly under the subline): An agent is a loop with a stop condition, not a thing you query. Each of these triggers, decides, acts, and stops.
+
 ### Section header: Build them in this order
 
-Each agent renders as a numbered card with four parts: name, plain description, a CEO greenlight line tied to a metric, and a "leaves behind" line. Below each card, the growing foundation bar.
+Each agent renders as a numbered card: name, a description that leads with what the agent does autonomously, a small monospace loop line (trigger to action to stop), a CEO greenlight line tied to a metric, and a "leaves behind" line. The two customer-or-money-touching agents (2 and 3) also carry a one-line gate marker. Below each card, the growing foundation bar. The descriptions must lead with autonomous action, never with answering, retrieving, or personalizing, so none of them reads as a chatbot or a recommendation engine.
 
 **1. Onboarding agent**
-Description: Walks every new hire through the business, their team, and cross-functional context from day one. Cuts ramp time and the early churn that comes from people feeling lost.
+Description: Triggers when someone is hired, builds their role-specific ramp plan, stages access for approval, schedules the right intros, tracks milestones, and escalates when something stalls. It runs the ramp, it doesn't answer questions about it.
+Loop line (monospace): new hire to plan, stage access, track, escalate to stop when ramped
 As CEO I'd greenlight this first: It costs almost nothing to try and it pays back every hiring cycle. Faster ramp means productive sooner. Lower first-90-day attrition means I stop paying to re-hire the same role. It's the lowest-risk way to prove agents work in a regulated environment before I point them at anything sensitive. Metrics: ramp time, 90-day retention, rehire cost avoided.
 Leaves behind: the first map of the company. Who owns what, which system holds which truth. Every later agent needs that map.
 Foundation bar: 33%
 
 **2. Credit card and loyalty conversion agent**
-Description: Works behind the scenes on the card program: targets prescreen offers, drafts offer language inside the bounds legal already approved, and surfaces where the two reward currencies don't reconcile. Makes the card simpler to pitch instead of adding another tool.
+Description: Triggers on customer and batch events and decides which prescreen offers to fire, suppress, or route, reasoning across the issuer, loyalty, and CRM data, then adapts targeting on the acceptance signal. Offer cleanup and currency reconciliation ride along.
+Loop line (monospace): customer event to decide fire / suppress / route to adapt on acceptance
+Gate marker (small, tertiary, under the loop line): Autonomous loop. Human approves every customer-facing send, within legal's bounds.
 As CEO I'd greenlight this next: This moves margin on both sides, and margin is the thing I can't move by pricing in this category. On revenue, the card is one of my highest-margin levers, and right now advisors skip it because the value prop is too confusing to explain at the register. Clean that up and prescreen smarter and acceptance goes up. On cost, smarter real-time targeting cuts mailer spend and manual compliance cycles. Metrics: card acceptance and activation, mailer cost, reconciliation accuracy. I measurably moved acceptance and cut mailer spend on this exact problem, and I'm happy to walk through the specifics in person.
-Leaves behind: a clean reconciliation and identity layer across the credit and loyalty currencies, built on the system map from step one. It also proves the governance pattern in a regulated, compliance-heavy setting, which is what earns the right to point an agent at customers next.
+Leaves behind: a reconciled credit-and-loyalty identity layer, built on the system map from step one, plus proof the governance pattern holds in a regulated, compliance-heavy setting. Both are what earn the right to point an agent at customers next.
 Foundation bar: 66%
 
 Note for the implementer: this is Blake's real lived domain (the Unified Currency relaunch with Bread Financial). Do NOT print confidential Sephora or Bread figures: no royalty rates, no profit-share targets, no spend totals, no breakage, no exact prescreen lift percentages. Results are stated as "measurably moved, specifics available in person." The discretion is deliberate and reads as trustworthy to a CEO.
 
 **3. Beauty-journey agent**
-Description: Helps each member move from discovery to purchase with context on their history, loyalty status, and credit offers. Respects each member's permissions and embeds in the existing workflow rather than sitting on top of it.
+Description: Decides the next best action for each member across touchpoints, takes it, and adapts on the response. Not a recommendation waiting to be shown. An agent that moves the member forward, respects their permissions, and learns from what happens.
+Loop line (monospace): member signal to decide and act to adapt on response
+Gate marker (small, tertiary, under the loop line): Autonomous loop. Human holds the gate on anything that reaches a member.
 As CEO I'd greenlight this last: I can't change what a category margin is, but I can change how much each member I already have buys, and how often. That's conversion, basket size, repeat rate, and how well I'm using Beauty Insider and the co-brand credit. It's top-line growth from members I already have, not paid acquisition. I put it last because it touches customers, and I only point an agent at customers after the first two have earned the identity and trust controls to do it safely. Metrics: conversion, average order value, repeat rate, loyalty and credit utilization.
 Leaves behind: the trust and identity layer, proven first on internal onboarding and then in the regulated card program, so customer-facing is the earned last step rather than the risky first one.
 Foundation bar: 92%
 
 ### Section header: The fourth one you don't have to invent
 
-Copy: Once those three connect, a fourth becomes possible that none of them could do alone: ask the business a question across all of it. Leadership interrogates one connected picture instead of three disconnected dashboards. As CEO this is decision speed and forecast accuracy off data I already own, with no new system to buy. This is the one I reached for in our call. It wasn't wrong, it was early. It can't come first. The foundation has to exist for it to work.
+Copy: It doesn't wait for a question. Once those three connect, it watches across all of it and surfaces the thing before anyone knew to ask, when a customer-behavior shift, a loyalty-and-credit signal, and an operations signal converge into something no single team can see, then it routes or acts. This is the one I reached for in our call. It wasn't wrong, it was early. The foundation has to exist for it to watch.
+Loop line (monospace): cross-domain pattern to detect to route or act (no human query)
 
 Style: amber card, solid border. This is the reframe of the live answer Blake fumbled. Keep it confident and short.
 
@@ -83,14 +91,14 @@ Lead line: This isn't my method. It's yours. DealFlow did exactly this:
 
 PHASE 1: Started with the most painful bottleneck, getting sales notes into Salesforce. Ran it with a small group, proved it, expanded to hundreds.
 PHASE 2: Built on that foundation by adding call transcripts to surface buying signals and deal risk. Cheaper because Phase 1 already laid the ground.
-Closing line: Painful thing first, prove it, then build on the layer. That's how you get past pilot purgatory into production, and it's the same pattern as the three above.
+Closing line: Most companies invert it and start with the ambitious agent, then wonder why it dies in production. Painful thing first, prove it, build on the layer.
 
 IMPORTANT: this section must stay faithful to Squid's published DealFlow case study. Do not embellish the phases or invent figures. Eyal knows the real story. If anything here drifts from their public material, cut it.
 
 ### Section header: Where I'd take it next
 
-Card title: The solve none of your three teams owns yet
-Copy: Same move as the fourth agent above, lifted from Sephora to your business. Support, sales, and finance each leave their own foundation. The same pattern says the real prize is the agent that works across all three once they connect, the one no single team can build alone. Direct first to learn the layer, channel later once it stands up without you in the room.
+Card title: The agent none of your teams can build alone
+Copy: Same move as the fourth one above, lifted from Sephora to your business. Support, sales, and finance each leave their own foundation. Once they connect, there's an agent that watches across all three and acts on what no single team can see. No one team owns it. No one team can build it.
 In-progress note (set off, smaller): Still in progress. You understand a layer by building inside it, not by mapping it from outside. I sketched this from your public material. To actually understand it I'd want inside one real account, because the layer's real shape only shows once it's integrated. That's the part I'm working on now.
 
 Style: amber card, dashed border. This is the only dashed element on the page. Keep it visibly thinner and less polished than the rest. It is genuinely unfinished and should read that way.
