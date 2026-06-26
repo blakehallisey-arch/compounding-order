@@ -10,17 +10,17 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --paper: #F6F7F8;
+    --paper: #F4F5F7;
     --surface: #FFFFFF;
     --ink: #1B1D21;
     --ink-2: #565C63;
     --ink-3: #8C9199;
     --line: rgba(20,22,26,.10);
     --line-2: rgba(20,22,26,.18);
-    --teal: #0f766e;
-    --teal-soft: #f0fdfa;
-    --teal-line: rgba(15,118,110,.28);
-    --teal-bar: #14b8a6;
+    --teal: #0d6e8a;
+    --teal-soft: #f0f9ff;
+    --teal-line: rgba(13,110,138,.24);
+    --teal-bar: #0ea5c9;
     --amber: #b45309;
     --amber-bg: #fffbeb;
     --amber-line: rgba(180,83,9,.30);
@@ -69,12 +69,12 @@
     max-width: 56ch;
   }
   h2 {
-    font-family: var(--sans);
+    font-family: var(--serif);
     font-weight: 500;
-    font-size: 13px;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--ink-3);
+    font-size: 15px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink);
     margin: 0 0 28px;
   }
   p { margin: 0 0 14px; }
@@ -104,10 +104,11 @@
   }
   .agent-num {
     font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: .1em;
+    font-size: 12px;
+    letter-spacing: .12em;
     color: var(--teal);
     flex-shrink: 0;
+    font-weight: 500;
   }
   .agent-name {
     font-family: var(--serif);
@@ -192,7 +193,7 @@
   }
   .foundation-label .pct { color: var(--teal); font-weight: 500; }
   .bar-track {
-    height: 6px;
+    height: 10px;
     background: var(--line);
     border-radius: 999px;
     overflow: hidden;
