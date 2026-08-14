@@ -1,37 +1,30 @@
-# Squid AI — "Sephora Agents, in compounding order"
+# Sephora Agents, in compounding order
 
-A single-page interactive artifact built as a **follow-up to Eyal Manor (CEO, Squid
-AI)** after a call. Primary reader is Eyal; Leslie Lee will also see it, so every
-number must be defensible.
+A single-page interactive artifact about **agent build order** — the argument that
+when you're standing up several AI agents inside one company, the sequence you
+build them in *is* the strategy.
 
 ## What it argues
 
-It answers Eyal's literal question from the call — the three agents you'd build for
-Sephora — then carries it one level up: **the order you build them in is the
-strategy.** Each agent's real payoff isn't the task it does, it's the foundation it
-leaves behind that makes the next agent cheaper and safer to build.
+Pick three agents you'd build for a retailer like Sephora. Then look one level up
+from the task list: each agent's real payoff isn't the job it does, it's the
+foundation it leaves behind that makes the next agent cheaper and safer to build.
+Get the order right and the third agent is nearly free. Get it wrong and you pay
+for the same plumbing three times.
 
-## The page
+The ground under it is Squid AI's **published** DealFlow case study — nothing in
+here embellishes their phases or invents figures beyond what they've put out
+publicly.
 
-One scrolling page, six static blocks:
-1. Header — the idea, stated plainly
-2. The three agents, in compounding order (each with a CEO view + a "leaves behind"
-   line + a growing **foundation bar** — ~33% → 66% → 92%, the key visual)
-3. The fourth agent you don't have to invent (the emergent cross-functional one)
-4. "You already work this way" — DealFlow validation, faithful to Squid's published
-   case study
-5. Where I'd take it next (the open frontier, marked in progress)
-6. The curated engine — three vetted static examples
+## How to read it
 
-## Design
+Open `index.html`. The three agents are laid out in build order, each with what it
+does, what it leaves behind, and what that unlocks for the one after it.
 
-Copies the **First Rung** aesthetic: white surfaces, 0.5px hairline borders, one
-teal accent for the compounding idea, amber only for emergent / in-progress pieces,
-plain sentence headers, generous whitespace, no gradients or shadows. Copy is locked
-and on-voice (no em dashes). Full spec + verbatim copy in `BUILD-THIS.md`.
+The scoring engine is curated rather than open-input, on purpose: an artifact
+making a careful argument shouldn't hand a live model an arbitrary prompt and let
+one weak answer undercut the reasoning above it.
 
-## Stack
+## Live
 
-Static front-end deployed to Vercel, with a serverless function (`api/score.js`)
-proxying the Anthropic API so the key never touches the browser — same stack as
-First Rung and Agent Blueprint Builder.
+[compounding-order.vercel.app](https://compounding-order.vercel.app)
