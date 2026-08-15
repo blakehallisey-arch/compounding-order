@@ -36,6 +36,10 @@ export default async function handler(req, res) {
     if (!candidate || typeof candidate !== 'string') {
       return res.status(400).json({ error: 'missing candidate' });
     }
+    // Blake's key pays for this, so cap what a stranger can send through it.
+    if (candidate.length > 8000) {
+      return res.status(413).json({ error: 'candidate too long' });
+    }
 
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
