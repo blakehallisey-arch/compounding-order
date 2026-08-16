@@ -61,6 +61,12 @@ export default async function handler(req, res) {
       return res.status(413).json({ error: 'candidate too long' });
     }
 
+    // Same deliberate off-switch as the other demos: no key means paused, not
+    // broken, and the visitor is told which.
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return res.status(503).json({ error: "This demo is turned off.", paused: true });
+    }
+
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
