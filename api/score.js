@@ -28,8 +28,28 @@ Return ONLY valid JSON, no preamble, no markdown fences:
   "rationale": "1-2 sentences on why it sits there"
 }`;
 
+// Best-effort per-IP throttle. In-memory, so it resets on a cold start and a
+// real cap would need a shared store — but it turns "a script can hammer this
+// all night on Blake's key" into "a script gets 8 a minute", which is the
+// difference that mattered when the org hit its spend limit on 8/15.
+const HITS = new Map();
+const RATE_LIMIT = 8;
+const RATE_WINDOW_MS = 60_000;
+
+function rateLimited(ip) {
+  const now = Date.now();
+  const recent = (HITS.get(ip) || []).filter((t) => now - t < RATE_WINDOW_MS);
+  recent.push(now);
+  HITS.set(ip, recent);
+  if (HITS.size > 5000) HITS.clear(); // crude bound so this can't grow forever
+  return recent.length > RATE_LIMIT;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
+
+  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  if (rateLimited(ip)) return res.status(429).json({ error: 'slow down' });
 
   try {
     const { candidate } = req.body;
@@ -39,6 +59,12 @@ export default async function handler(req, res) {
     // Blake's key pays for this, so cap what a stranger can send through it.
     if (candidate.length > 8000) {
       return res.status(413).json({ error: 'candidate too long' });
+    }
+
+    // Same deliberate off-switch as the other demos: no key means paused, not
+    // broken, and the visitor is told which.
+    if (!process.env.ANTHROPIC_API_KEY) {
+      return res.status(503).json({ error: "This demo is turned off.", paused: true });
     }
 
     const r = await fetch('https://api.anthropic.com/v1/messages', {
