@@ -48,7 +48,14 @@ function rateLimited(ip) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  // x-vercel-forwarded-for is set by the platform and a caller cannot write it.
+  // This read x-forwarded-for and took entry [0], the CLIENT end of the chain —
+  // rotate one header per request and the throttle below is not a throttle. Same
+  // bug found in ask-blake on 8/15 and shipped again in three more places on
+  // 8/17; the last hop of x-forwarded-for is the only part an outsider can't forge.
+  const fwd = (req.headers['x-vercel-forwarded-for'] || '').trim();
+  const chain = (req.headers['x-forwarded-for'] || '').split(',').map(s => s.trim()).filter(Boolean);
+  const ip = fwd ? fwd.split(',')[0].trim() : (chain.length ? chain[chain.length - 1] : 'unknown');
   if (rateLimited(ip)) return res.status(429).json({ error: 'slow down' });
 
   try {
